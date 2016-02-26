@@ -5,7 +5,7 @@ var express = require('express'),
     mongoose = require('mongoose');
 
 
-var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
 var app = express();
 
@@ -29,8 +29,18 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 
 // DB CONNECTION
-var dbName = 'testDb';
+
+var dbName = 'dingco';
 var connString = 'mongodb://localhost/'+dbName;
+
+if(env==='production'){
+    connString = 'mongodb://admin:111_aaaa@ds053818.mlab.com:53818/'+dbName;
+    console.log("ENV::: PRODUCTION");
+}
+else{
+    console.log("ENV::: DEVELOPMENT");
+}
+
 mongoose.connect(connString);
 var db = mongoose.connection;
 
